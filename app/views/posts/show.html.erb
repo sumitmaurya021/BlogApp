@@ -1,0 +1,36 @@
+<div style="max-width: 600px; margin: 0 auto; padding: 20px; background: #f9f9f9; border-radius: 10px; box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);">
+  <h1 style="text-align: center; font-size: 26px; color: #333; margin-bottom: 10px;">
+    <%= @post.name %> (<%= @post.email %>)
+  </h1>
+  
+  <p style="font-size: 16px; color: #555; text-align: center; margin-bottom: 20px;"><%= @post.description %></p>
+
+  <h2 style="font-size: 22px; color: #333; margin-bottom: 10px;">Comments</h2>
+
+  <ul style="list-style: none; padding: 0;">
+    <% @post.comments.each do |comment| %>
+      <li style="background: white; padding: 10px; margin-bottom: 10px; border-radius: 8px; box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1); display: flex; justify-content: space-between; align-items: center;">
+        <span style="font-size: 16px; color: #333;"><%= comment.content %></span>
+        <div>
+          <%= link_to 'Edit', edit_post_comment_path(@post, comment), style: "padding: 5px 10px; background: #ffc107; color: white; text-decoration: none; border-radius: 5px; font-size: 14px;" %>
+          <%= link_to 'Delete', post_comment_path(@post, comment), method: :delete, data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' }, style: "padding: 5px 10px; background: #dc3545; color: white; text-decoration: none; border-radius: 5px; font-size: 14px;" %>
+        </div>
+      </li>
+    <% end %>
+  </ul>
+
+  <h3 style="font-size: 20px; color: #333; margin-top: 20px;">Add a Comment</h3>
+
+  <%= form_with(model: [@post, Comment.new], local: true, style: "display: flex; flex-direction: column;") do |form| %>
+    <div style="margin-bottom: 15px;">
+      <%= form.label :content, style: "font-weight: bold; display: block; margin-bottom: 5px;" %>
+      <%= form.text_area :content, rows: 3, style: "width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px; font-size: 16px;" %>
+    </div>
+    
+    <%= form.submit 'Add Comment', style: "width: 100%; padding: 12px; background-color: #007BFF; color: white; font-size: 16px; border: none; border-radius: 5px; cursor: pointer;" %>
+  <% end %>
+
+  <div style="text-align: center; margin-top: 15px;">
+    <%= link_to 'Back', posts_path, style: "text-decoration: none; color: #007BFF; font-size: 14px;" %>
+  </div>
+</div>
